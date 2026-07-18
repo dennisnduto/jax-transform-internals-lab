@@ -30,7 +30,10 @@ def test_custom_vjp_gradient_matches_unrolled_reference():
 
 def test_one_parameter_matches_finite_difference():
     params, x = _problem()
-    loss = lambda p: jnp.sum(implicit_tanh(p, x) ** 2)
+
+    def loss(p):
+        return jnp.sum(implicit_tanh(p, x) ** 2)
+
     gradient = jax.grad(loss)(params)
 
     epsilon = 1e-3
